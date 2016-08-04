@@ -12,8 +12,8 @@ angular.module('app.routes', ['ngRoute'])
 		// login page
 		.when('/login', {
 			templateUrl : 'app/views/pages/login.html',
-   			controller  : 'mainController',
-    			controllerAs: 'login'
+   		controller  : 'mainController',
+    	controllerAs: 'login'
 		})
 		
 		// show all users
@@ -36,7 +36,29 @@ angular.module('app.routes', ['ngRoute'])
 			templateUrl: 'app/views/pages/users/single.html',
 			controller: 'userEditController',
 			controllerAs: 'user'
-		});
+		})
+
+		// show all news
+		.when('/news', {
+			templateUrl: 'app/views/pages/news/all.html',
+			controller: 'newsController',
+			controllerAs: 'news'
+		})
+
+		// create a new news
+		.when('/news/create', {
+			templateUrl: 'app/views/pages/news/single.html',
+			controller: 'newsCreateController',
+			controllerAs: 'news'
+		})
+
+		// edit one news
+		.when('/news/:news_id', {
+			templateUrl: 'app/views/pages/news/single.html',
+			controller: 'newsEditController',
+			controllerAs: 'news'
+		})
+		;
 
 	$locationProvider.html5Mode(true);
 

@@ -1,0 +1,31 @@
+<h3>
+	所有新闻
+	<a href="/news/create" class="btn btn-default">
+		<span class="glyphicon glyphicon-plus"></span>创建一条新闻
+	</a>
+</h3>
+<div class="jumbotron text-center" ng-show="user.processing">
+	<span class="glyphicon glyphicon-repeat spinner"></span>
+	<p>载入新闻...</p>
+</div>
+
+<table class="table table-bordered table-striped" ng-show="news.news">
+	<thead>
+		<tr>
+			<th>标题</th>
+			<th>作者</th>
+			<th>内容</th>
+			<th class="col-sm-2"></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="news in news.news">
+			<td>{{ news.title }}</td>
+			<td>{{ news.author }}</td>
+			<td>{{ news.content }}</td>
+			<td class="col-sm-2">
+				<a ng-href="/news/{{ news._id }}" class="btn btn-primary">编辑</a>
+			</td>
+		</tr>
+	</tbody>
+</table>

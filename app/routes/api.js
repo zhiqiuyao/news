@@ -1,5 +1,6 @@
 var bodyParser = require('body-parser'); 	// get body-parser
 var User       = require('../models/user');
+var News       = require('../models/news');
 var jwt        = require('jsonwebtoken');
 var config     = require('../../config');
 
@@ -220,6 +221,49 @@ module.exports = function(app, express) {
 	apiRouter.get('/me', function(req, res) {
 		res.send(req.decoded);
 	});
+
+	apiRouter.route('/news')
+		.get(function(req, res) {
+			News.find({}, function(err, news) {
+				if (err) res.send(err);
+
+				// return the users
+				res.json(news);
+			});
+		})
+		.post((req, res) => {
+			var news = new News({
+				title: req.body.title,
+				author: req.body.author,
+				content: req.body.content
+			});
+			console.log('news',news);
+			news.save(function(err) {
+				if (err) return res.json(err);
+				res.json({success: true, message: '创建成功'});
+			});
+		});
+	apiRouter.route('/news/:news_id')
+		.get((req, res) => {
+			News.findById(req.params.news_id, function(err, news) {
+				if (err) return res.json(err);
+				res.json(news);
+			})
+		})
+		.put((req, res) => {
+			News.findById(req.params.news_id, function(err, news) {
+				if (err) return res.json(err);
+				if (req.body.title) news.title = req.body.title;
+				if (req.body.author) news.author = req.body.author;
+				if (req.body.content) news.content = req.body.content;
+
+				news.save(function (err){
+					if (err) return res.send(err);
+					res.json({success: true, message: '修改新闻成功'});
+				})
+			})
+		});
+
 
 	return apiRouter;
 };
